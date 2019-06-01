@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -30,14 +31,13 @@ public class MainActivity extends Activity {
     public static final int PICK_IMAGE = 20;
     ImageView imageView;
     Button button;
-    private String selectedImagePath = " ";
 
+    private String selectedImagePath = " ";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         imageView = (ImageView) findViewById(R.id.imageView1);
 
@@ -58,6 +58,9 @@ public class MainActivity extends Activity {
                         PICK_IMAGE);
             }
         });
+
+
+
     }
 
     @Override
@@ -67,12 +70,17 @@ public class MainActivity extends Activity {
             if(requestCode == PICK_IMAGE)
             {
                 Uri imageUri = data.getData();
+
+
                 InputStream inputStream;
-                
+
                 try{
                     inputStream = getContentResolver().openInputStream(imageUri);
+
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     imageView.setImageBitmap(image);
+
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
@@ -80,4 +88,7 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+
+
 }
